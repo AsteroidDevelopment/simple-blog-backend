@@ -18,6 +18,8 @@ router.get('/', (req, res) => {
   SiteBlogs.find(sort, sortdir, searchTerm, category, tag)
     .then(site_blogs => {
 
+      console.log(site_blogs)
+
       // get page from query params or default to first page
       const page = parseInt(req.query.page) || 1;
 
@@ -26,23 +28,11 @@ router.get('/', (req, res) => {
       const pager = paginate(site_blogs.length, page, pageSize);
 
       // get page of site_blogs from site_blogs array
-      const pageOfSiteBlogs = site_blogs.slice(pager.startIndex, pager.endIndex + 1);
+      const pageOfItems = site_blogs.slice(pager.startIndex, pager.endIndex + 1);
 
-      // return pager object and current page of site_blogs
-      return res.json({
-        pager, pageOfSiteBlogs: pageOfSiteBlogs.map(
-          site_blog => ({
-            ...site_blog,
-            thumbnail: site_blog.image_url ? {
-               image_url: site_blog.image_url,
-               image_title: site_blog.image_title,
-               image_source: site_blog.image_source,
-               image_description: site_blog.image_description,
-               image_id: site_blog.image_id
-            } : {}
-          })
-        )
-      });
+      //return pager object and current page of site_blogs
+      return res.json({pager, pageOfItems});
+
 
     })
     .catch(err => {
