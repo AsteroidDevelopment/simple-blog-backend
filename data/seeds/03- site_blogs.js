@@ -11,7 +11,7 @@ exports.seed = function(knex) {
       blog_category: "News",
       blog_status: "public"
     },
-    /{
+    {
       author_id: 1,
       blog_title: "How Can Blogging Help Your Business?",
       blog_description: "A short preview of the matter at hand.",
